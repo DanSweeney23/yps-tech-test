@@ -1,5 +1,5 @@
-import { baseUrl, useRequest } from "../config";
-import type { Article } from "../models/article";
+import { baseUrl, useRequest } from "../api/config";
+import type { Article } from "../api/models/article";
 
 type ArticlesListRequestParams = {
   search?: string,

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useArticlesListRequest } from '@/api/composables/requestComposables';
+import { useArticlesListRequest } from '@/composables/requestComposables';
 import ArticleCard from "@/components/ArticleCard.vue";
 
 const { liveGenerationRequest } = useArticlesListRequest();
@@ -32,6 +32,15 @@ liveGenerationRequest.doRequest({ page: 1, limit: 3 }); //Seems like you cant gi
 
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+}
+
+@media screen and (max-width: 768px) {
+  .related-articles-grid {
+    display: inherit;
+  }
+  .related-articles-text {
+    text-align: center;
+  }
 }
 
 .related-articles-text {

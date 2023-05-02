@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useSingleArticleRequest } from '@/api/composables/requestComposables';
-import { computed, ref } from 'vue';
+import { useSingleArticleRequest } from '@/composables/requestComposables';
+import { computed, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import RelatedArticles from "@/components/RelatedArticles.vue";
 
@@ -27,7 +27,12 @@ function formatDate(dateStr: string) {
   return `${day}${suffix} ${month} ${year}`;
 }
 
-const url = ref(location.href);
+watch(route, (newRoute, oldRoute) => {
+  if(newRoute.redirectedFrom?.name != oldRoute.name)
+  //Added because navigating to a different article from within one article doesn't move to the top of the page
+  window.scrollTo(0, 0);
+  singleArticleRequest.doRequest(newRoute.params.id);
+}, { deep: true })
 </script>
 
 <template>
@@ -38,7 +43,7 @@ const url = ref(location.href);
         {{ formatDate(article.createdAt) }} | By {{ article.author }}
       </span>
       <p class="article-info-intro">{{ article.intro }}</p>
-      <img :src="article.image" :alt="article.title" />
+      <img class="article-page-image" :src="article.image" :alt="article.title" />
     </div>
     <p class="article-body">{{ article.text }}</p>
 
@@ -65,12 +70,14 @@ const url = ref(location.href);
 .article-wrapper {
   max-width: 786px;
   margin: auto;
+  padding: 10px;
 }
 
 .article-page-heading {
   text-align: center;
   padding: 4rem;
   font-weight: bold;
+  font-size: 2rem;
 }
 
 .article-info-wrapper {
@@ -86,6 +93,10 @@ const url = ref(location.href);
   display: flex;
   justify-content: center;
   color: #87A2B1;
+}
+
+.article-page-image {
+  max-width: 100%;
 }
 
 .article-info-intro {

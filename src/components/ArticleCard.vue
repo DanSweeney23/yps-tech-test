@@ -6,23 +6,31 @@ const { article } = defineProps({ article: { type: Object as PropType<Article>, 
 </script>
 
 <template>
-  <div class="article-card">
+  <section class="article-card">
     <img :src="article.image" alt="article image" />
-    <h2>{{ article.title }}</h2>
+    <h3>{{ article.title }}</h3>
     <p>{{ article.intro }}</p>
-    <RouterLink :to="`/blogpost/${article.id}`">Read more...</RouterLink>
-  </div>
+    <RouterLink :to="`/article/${article.id}`">Read more →</RouterLink>
+  </section>
 </template>
 
 <style>
 .article-card {
   margin: 0.5rem;
   padding: 0.5rem;
-  text-align: center;
+}
+
+.article-card > * {
+  margin: 0.5rem;
 }
 
 .article-card img {
   max-width: 100%;
   margin: auto;
+}
+
+.article-card a {
+  text-decoration: underline;
+  font-weight: bold;
 }
 </style>

@@ -22,7 +22,7 @@ export function useRequest<d = any>(request: (...params: any[]) => Promise<Respo
     try {
       const res = await request(...params);
 
-      loading.value = true;
+      loading.value = false;
 
       if (!res.ok) {
         error.value = true;
