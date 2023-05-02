@@ -7,17 +7,21 @@ type ArticlesListRequestParams = {
   limit?: number
 };
 
+const liveGenerationRequest = useRequest<Article[]>((params: ArticlesListRequestParams) => {
+  let requestParams = '?';
+
+  if (params.search) requestParams += `search=${encodeURIComponent(params.search)}`;
+  if (params.page) requestParams += `page=${params.page}`;
+  if (params.limit) requestParams += `limit=${params.limit}`;
+
+  return fetch(`${baseUrl}/Articles` + (requestParams !== '?' ? requestParams : ''))
+});
 
 export function useArticlesListRequest() {
-  const liveGenerationRequest = useRequest<Article[]>((params: ArticlesListRequestParams) => {
-    let requestParams = '?';
-
-    if (params.search) requestParams += `search=${encodeURIComponent(params.search)}`;
-    if (params.page) requestParams += `page=${params.page}`;
-    if (params.limit) requestParams += `limit=${params.limit}`;
-
-    return fetch(`${baseUrl}/Articles` + (requestParams !== '?' ? requestParams : ''))
-  });
-
   return { liveGenerationRequest };
-}
+};
+
+export function useSingleArticleRequest() {
+  const singleArticleRequest = useRequest<Article>((id: string) => fetch(`${baseUrl}/Articles/${id}`));
+  return { singleArticleRequest }
+};

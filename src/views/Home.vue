@@ -12,7 +12,7 @@ liveGenerationRequest.doRequest({})
         <img :src="article.image" alt="article image" />
         <h2>{{ article.title }}</h2>
         <p>{{ article.intro }}</p>
-        <RouterLink :to="`/article/${article.id}`">Read more...</RouterLink>
+        <RouterLink :to="`/blogpost/${article.id}`">Read more...</RouterLink>
       </div>
     </div>
   </template>

@@ -3,7 +3,7 @@
 <template>
   <div class="header-wrapper">
     <header class="top-bar">
-      <h1>Your Parking Space.</h1>
+      <RouterLink :to="`/`" class="logo">Your Parking Space.</RouterLink>
       <div>Search bar goes here</div>
     </header>
   </div>
@@ -24,5 +24,12 @@
 
   display: flex;
   justify-content: space-between;
+}
+
+.logo {
+  font-size: 2rem;
+  text-decoration: none;
+  background: none !important;
+  color: var(--vt-c-white-soft)
 }
 </style>
