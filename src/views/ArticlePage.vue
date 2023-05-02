@@ -28,9 +28,9 @@ function formatDate(dateStr: string) {
 }
 
 watch(route, (newRoute, oldRoute) => {
-  if(newRoute.redirectedFrom?.name != oldRoute.name)
-  //Added because navigating to a different article from within one article doesn't move to the top of the page
-  window.scrollTo(0, 0);
+  if (newRoute.redirectedFrom?.name != oldRoute.name)
+    //Added because navigating to a different article from within one article doesn't move to the top of the page
+    window.scrollTo(0, 0);
   singleArticleRequest.doRequest(newRoute.params.id);
 }, { deep: true })
 </script>
@@ -53,6 +53,7 @@ watch(route, (newRoute, oldRoute) => {
       <img src="@/assets/linkedin-logo.svg">
       <img src="@/assets/facebook-logo.png">
     </div>
+    <RelatedArticles :current-article-id="article?.id" />
   </article>
 
   <template v-else-if="singleArticleRequest.loading.value">
@@ -62,8 +63,6 @@ watch(route, (newRoute, oldRoute) => {
   <template v-else-if="singleArticleRequest.error.value">
     <p>An error has occurred. Please try again?</p>
   </template>
-
-  <RelatedArticles />
 </template>
 
 <style>

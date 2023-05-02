@@ -1,16 +1,22 @@
 <script setup lang="ts">
 import { useArticlesListRequest } from '@/composables/requestComposables';
 import ArticleCard from "@/components/ArticleCard.vue";
+import { computed } from 'vue';
+
+const { currentArticleId } = defineProps({ currentArticleId: { type: String, required: true } });
 
 const { liveGenerationRequest } = useArticlesListRequest();
-liveGenerationRequest.doRequest({ page: 1, limit: 3 }); //Seems like you cant give a limit without also specifying a page
+liveGenerationRequest.doRequest({ page: 1, limit: 4 }); //Seems like you cant give a limit without also specifying a page
+
+//Get 4 articles then filter & slice so we don't show to same one
+const articles = computed(() => liveGenerationRequest.data.value?.filter(article => article.id !== currentArticleId).slice(0, 3) ?? []);
 </script>
 
 <template>
   <div class="related-articles-wrapper">
     <div class="related-articles-grid">
       <p class="related-articles-text">Related news articles<span>:</span></p>
-      <ArticleCard v-for="(article, index) in liveGenerationRequest.data.value" :key="index" :article="article" />
+      <ArticleCard v-for="(article, index) in articles" :key="index" :article="article" />
     </div>
   </div>
 </template>
@@ -38,6 +44,7 @@ liveGenerationRequest.doRequest({ page: 1, limit: 3 }); //Seems like you cant gi
   .related-articles-grid {
     display: inherit;
   }
+
   .related-articles-text {
     text-align: center;
   }
