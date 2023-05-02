@@ -29,10 +29,10 @@ watch(route, newRoute => {
       <ArticleCard v-for="(article, index) in liveGenerationRequest.data.value" :key="index" :article="article" />
     </div>
     <div class="article-paging-footer">
-      <RouterLink class="article-paging-link" :to="`?page=${currentPage - 1}&search=${route.query.search}`" :disabled="currentPage === 1" tag="button">
+      <RouterLink class="article-paging-link" :to="`?page=${currentPage - 1}&search=${route.query.search ?? ''}`" :disabled="currentPage === 1" tag="button">
         Previous
       </RouterLink>
-      <RouterLink class="article-paging-link" :to="`?page=${currentPage + 1}&search=${route.query.search}`"
+      <RouterLink class="article-paging-link" :to="`?page=${currentPage + 1}&search=${route.query.search ?? ''}`"
         :disabled="liveGenerationRequest.data.value.length < 16" tag="button">
         Next
       </RouterLink>
