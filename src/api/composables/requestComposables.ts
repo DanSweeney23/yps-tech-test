@@ -10,8 +10,8 @@ type ArticlesListRequestParams = {
 const liveGenerationRequest = useRequest<Article[]>((params: ArticlesListRequestParams) => {
   let requestParams = '?';
 
-  if (params.search) requestParams += `search=${encodeURIComponent(params.search)}`;
-  if (params.page) requestParams += `page=${params.page}`;
+  if (params.search) requestParams += `search=${encodeURIComponent(params.search)}&`;
+  if (params.page) requestParams += `page=${params.page}&`;
   if (params.limit) requestParams += `limit=${params.limit}`;
 
   return fetch(`${baseUrl}/Articles` + (requestParams !== '?' ? requestParams : ''))

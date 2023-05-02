@@ -31,7 +31,7 @@ const url = ref(location.href);
 </script>
 
 <template>
-  <article v-if="article">
+  <article v-if="article" class="article-wrapper">
     <h1 class="article-page-heading">{{ article.title }}</h1>
     <div class="article-info-wrapper">
       <span class="article-info-details">
@@ -62,6 +62,11 @@ const url = ref(location.href);
 </template>
 
 <style>
+.article-wrapper {
+  max-width: 786px;
+  margin: auto;
+}
+
 .article-page-heading {
   text-align: center;
   padding: 4rem;
@@ -71,8 +76,6 @@ const url = ref(location.href);
 .article-info-wrapper {
   background-color: var(--yps-blue-grey);
   text-align: center;
-  max-width: 786px;
-  margin: auto;
   font-weight: bold;
   padding: 2rem;
   border-top: 0.3rem solid var(--yps-green-1);
@@ -90,9 +93,7 @@ const url = ref(location.href);
 }
 
 .article-body {
-  margin: auto;
   margin-bottom: 2rem;
-  max-width: 786px;
 }
 
 .socials-links {
