@@ -20,6 +20,10 @@ const { article } = defineProps({ article: { type: Object as PropType<Article>, 
   padding: 0.5rem;
 }
 
+.article-card h3 {
+  padding: 1rem 0;
+}
+
 .article-card > * {
   margin: 0.5rem;
 }
@@ -27,6 +31,11 @@ const { article } = defineProps({ article: { type: Object as PropType<Article>, 
 .article-card img {
   max-width: 100%;
   margin: auto;
+}
+
+.article-card p {
+  margin-bottom: 1rem;
+  opacity: 0.8;
 }
 
 .article-card a {

@@ -6,9 +6,10 @@ const searchTerm = ref("");
 <template>
   <div class="header-wrapper">
     <header class="top-bar">
-      <RouterLink :to="`/`" class="logo">Your Parking Space.</RouterLink>
+      <RouterLink :to="`/`" class="logo"> <img src="@/assets/yps-logo.png" />
+      </RouterLink>
       <div class="search">
-        <img src="@/assets/icon-search.png" style="height:1rem;margin-right:0.3rem"/>
+        <img src="@/assets/icon-search.png" style="height:1rem;margin-right:0.3rem" />
         <input class="search-field" v-model="searchTerm" placeholder="Enter a search term" />
         <RouterLink :to="`/?search=${encodeURIComponent(searchTerm)}`" class="search-button" :disabled="searchTerm === ''"
           tag="button">Search</RouterLink>
@@ -26,27 +27,34 @@ const searchTerm = ref("");
 
 .top-bar {
   color: var(--vt-c-white-soft);
-  background-color: var(--vt-c-black-mute);
+  background-color: #101921;
   display: block;
-  padding: 0.5rem;
+  height: 4.5rem;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
+
 .logo {
   font-size: 2rem;
   text-decoration: none;
   background: none !important;
-  color: var(--vt-c-white-soft)
+  color: var(--vt-c-white-soft);
+}
+
+.logo img {
+  vertical-align: middle;
 }
 
 .search {
-  border: 1px solid #97A8B3;
-  border-radius: 1px;
-  overflow:auto;
+  border: 1px inset #97A8B3;
+  border-radius: 3px;
+  overflow: auto;
   padding: 0.5rem;
+  max-width: 21rem;
+  margin-right: 1rem;
 }
 
 .search-field {
@@ -54,18 +62,36 @@ const searchTerm = ref("");
   outline: none;
   background-color: transparent;
   color: var(--vt-c-white-soft);
+  width: 13rem;
+}
+
+.search-field::placeholder {
+  color: var(--vt-c-white-soft);
+  opacity: 1;
+  font-weight: bold;
 }
 
 .search-button {
   background: var(--yps-green-1);
   color: #0F1A21;
-  padding: 0.4rem;
+  padding: 0.4rem 1rem 0.4rem 1rem;
   text-align: center;
 }
 
-.search-button[disabled=true] {
-  background: #87A1B0;
-  color: #E8EFF3;
-  cursor: default;
+
+@media screen and (max-width: 650px) {
+  .header-wrapper {
+    text-align: center;
+  }
+
+  .top-bar {
+    display: inherit;
+    height: auto;
+    padding: 0.5rem;
+  }
+
+  .search {
+    margin: auto;
+  }
 }
 </style>

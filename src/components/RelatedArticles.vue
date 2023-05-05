@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { useArticlesListRequest } from '@/composables/requestComposables';
+import { useArticlesListRequest } from '@/util/requestComposables';
 import ArticleCard from "@/components/ArticleCard.vue";
 import { computed } from 'vue';
 
 const { currentArticleId } = defineProps({ currentArticleId: { type: String, required: true } });
 
-const { liveGenerationRequest } = useArticlesListRequest();
-liveGenerationRequest.doRequest({ page: 1, limit: 4 }); //Seems like you cant give a limit without also specifying a page
+const { articlesListRequest } = useArticlesListRequest();
+articlesListRequest.doRequest({ page: 1, limit: 4 }); //Seems like you cant give a limit without also specifying a page
 
 //Get 4 articles then filter & slice so we don't show to same one
-const articles = computed(() => liveGenerationRequest.data.value?.filter(article => article.id !== currentArticleId).slice(0, 3) ?? []);
+const articles = computed(() => articlesListRequest.data.value?.filter(article => article.id !== currentArticleId).slice(0, 3) ?? []);
 </script>
 
 <template>

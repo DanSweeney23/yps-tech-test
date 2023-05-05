@@ -9,7 +9,7 @@ const { article } = defineProps({ article: { type: Object as PropType<Article>, 
 <template>
   <section class="latest-article-wrapper">
     <div class="latest-article-inner">
-      <h2>Latest article</h2>
+      <h2 class="latest-article-title">Latest article</h2>
       <div class="latest-article-grid">
         <img class="latest-article-image" :src="article.image" alt="Latest article image" />
         <div class="latest-article-details">
@@ -41,6 +41,7 @@ const { article } = defineProps({ article: { type: Object as PropType<Article>, 
 
 .latest-article-inner h2 {
   margin-bottom: 2rem;
+  font-size: 2rem;
 }
 
 .latest-article-grid {
@@ -52,10 +53,20 @@ const { article } = defineProps({ article: { type: Object as PropType<Article>, 
   .latest-article-grid {
     display: inherit;
   }
+
+  .latest-article-title {
+    text-align: center;
+  }
 }
 
 .latest-article-image {
-  max-width: 100%;
+  width: 100%;
+  object-fit: cover;
+  height: 70%;
+}
+
+.latest-article-details h3 {
+  font-size: 1.5rem;
 }
 
 .latest-article-details>* {

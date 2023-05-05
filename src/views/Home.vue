@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useArticlesListRequest } from '@/composables/requestComposables';
+import { useArticlesListRequest } from '@/util/requestComposables';
 import ArticleCard from '@/components/ArticleCard.vue';
 import LatestArticle from '@/components/LatestArticle.vue';
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
@@ -11,43 +11,49 @@ const currentPage = ref(1);
 if (route.query.page) currentPage.value = parseInt(route.query.page as string)
 
 
-const { liveGenerationRequest } = useArticlesListRequest();
-liveGenerationRequest.doRequest({ page: currentPage.value, limit: 16, search: route.query.search });
+const { articlesListRequest } = useArticlesListRequest();
+articlesListRequest.doRequest({ page: currentPage.value, limit: 16, search: route.query.search });
 
 watch(route, newRoute => {
   window.scrollTo(0, 0);
   currentPage.value = parseInt(newRoute.query.page as string) || 1;
-  liveGenerationRequest.doRequest({ page: currentPage.value, limit: 16, search: route.query.search })
-}, { deep: true })
+  articlesListRequest.doRequest({ page: currentPage.value, limit: 16, search: route.query.search })
+}, { deep: true });
+
+const prevDisabled = computed(() => currentPage.value <= 1);
+const nextDisabled = computed(() => (articlesListRequest.data.value?.length ?? 0) < 16);
 </script>
 
 <template>
-  <template v-if="liveGenerationRequest.data.value?.length">
+  <template v-if="articlesListRequest.data.value?.length">
     <!--Hide latest article if on the first page or searched?-->
-    <LatestArticle v-if="currentPage === 1 && !route.query.search" :article="liveGenerationRequest.data.value[0]" />
+    <LatestArticle v-if="currentPage === 1 && !route.query.search" :article="articlesListRequest.data.value[0]" />
     <div class="articles-grid">
-      <ArticleCard v-for="(article, index) in liveGenerationRequest.data.value" :key="index" :article="article" />
+      <ArticleCard v-for="(article, index) in articlesListRequest.data.value" :key="index" :article="article" />
     </div>
     <div class="article-paging-footer">
-      <RouterLink class="article-paging-link" :to="`?page=${currentPage - 1}&search=${route.query.search ?? ''}`" :disabled="currentPage === 1" tag="button">
+      <RouterLink class="article-paging-link"
+        :to="prevDisabled ? route.fullPath : `?page=${currentPage - 1}&search=${route.query.search ?? ''}`"
+        :disabled="prevDisabled" tag="button">
         Previous
       </RouterLink>
-      <RouterLink class="article-paging-link" :to="`?page=${currentPage + 1}&search=${route.query.search ?? ''}`"
-        :disabled="liveGenerationRequest.data.value.length < 16" tag="button">
+      <RouterLink class="article-paging-link"
+        :to="nextDisabled ? route.fullPath : `?page=${currentPage + 1}&search=${route.query.search ?? ''}`"
+        :disabled="nextDisabled" tag="button">
         Next
       </RouterLink>
     </div>
   </template>
 
-  <template v-else-if="liveGenerationRequest.loading.value">
+  <template v-else-if="articlesListRequest.loading.value">
     <p>Loading...</p>
   </template>
 
-  <template v-else-if="liveGenerationRequest.error.value">
+  <template v-else-if="articlesListRequest.error.value">
     <p>An error has occurred. Please try again?</p>
   </template>
 
-  <template v-else-if="liveGenerationRequest.data.value?.length === 0">
+  <template v-else-if="articlesListRequest.data.value?.length === 0">
     <h1>No articles found. Try narrowing down your search.</h1>
   </template>
 </template>

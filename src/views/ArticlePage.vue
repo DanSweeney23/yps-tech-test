@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { useSingleArticleRequest } from '@/composables/requestComposables';
-import { computed, ref, watch } from 'vue';
+import { useSingleArticleRequest } from '@/util/requestComposables';
+import { computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import RelatedArticles from "@/components/RelatedArticles.vue";
+import { formatDate } from "@/util/util";
 
 const route = useRoute();
 
@@ -10,22 +11,6 @@ const { singleArticleRequest } = useSingleArticleRequest();
 singleArticleRequest.doRequest(route.params.id);
 
 const article = computed(() => singleArticleRequest.data.value);
-
-function formatDate(dateStr: string) {
-  const date = new Date(dateStr);
-
-  const day = date.getDate();
-  const month = date.toLocaleString('default', { month: 'long' });
-  const year = date.getFullYear();
-
-  let suffix;
-  if (day === 1 || day === 21 || day === 31) suffix = "st";
-  else if (day === 2 || day === 22) suffix = "nd";
-  else if (day === 3 || day === 23) suffix = "rd";
-  else suffix = "th";
-
-  return `${day}${suffix} ${month} ${year}`;
-}
 
 watch(route, (newRoute, oldRoute) => {
   if (newRoute.redirectedFrom?.name != oldRoute.name)
@@ -95,7 +80,9 @@ watch(route, (newRoute, oldRoute) => {
 }
 
 .article-page-image {
-  max-width: 100%;
+  transform: scale(1.3,1);  
+  max-width: 80vw;
+  object-fit: cover;
 }
 
 .article-info-intro {

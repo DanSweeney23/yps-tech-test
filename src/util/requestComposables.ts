@@ -1,5 +1,5 @@
-import { baseUrl, useRequest } from "../api/config";
-import type { Article } from "../api/models/article";
+import { baseUrl, useRequest } from "@/api/config";
+import type { Article } from "@/api/models/article";
 
 type ArticlesListRequestParams = {
   search?: string,
@@ -7,7 +7,7 @@ type ArticlesListRequestParams = {
   limit?: number
 };
 
-const liveGenerationRequest = useRequest<Article[]>((params: ArticlesListRequestParams) => {
+const articlesListRequest = useRequest<Article[]>((params: ArticlesListRequestParams) => {
   let requestParams = '?';
 
   if (params.search) requestParams += `search=${encodeURIComponent(params.search)}&`;
@@ -18,7 +18,7 @@ const liveGenerationRequest = useRequest<Article[]>((params: ArticlesListRequest
 });
 
 export function useArticlesListRequest() {
-  return { liveGenerationRequest };
+  return { articlesListRequest };
 };
 
 export function useSingleArticleRequest() {
